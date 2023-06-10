@@ -1,0 +1,13 @@
+{intro}
+
+{example_chat}
+
+{example_json}
+
+{mood}
+
+{memories}
+
+{messages}
+
+{respond}

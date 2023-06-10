@@ -1,0 +1,3 @@
+The following are the most recent messages sent between {bot_name} and {user_name}:
+
+{messages}

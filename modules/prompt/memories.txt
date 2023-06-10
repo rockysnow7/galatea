@@ -1,0 +1,3 @@
+The following provides some relevant notes and opinions of {bot_name}'s:
+
+{memories}
