@@ -1,5 +1,6 @@
 from typing import Any
 from module import Module
+from rewriter import RewriterModule
 from load_openai import openai
 
 import os
@@ -8,8 +9,9 @@ import time
 
 
 class MessageModule(Module):
-    def __init__(self) -> None:
+    def __init__(self, rewriter: RewriterModule = RewriterModule()) -> None:
         super().__init__()
+        self.__rewriter = rewriter
 
         if not os.path.exists("modules/messages"):
             os.mkdir("modules/messages")
@@ -49,5 +51,6 @@ class MessageModule(Module):
         )
         response = response["choices"][0]["text"].strip()
         response_dict = json.loads(response)
+        response_dict["response"] = self.__rewriter.process(response_dict["response"])
 
         return response_dict

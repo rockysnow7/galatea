@@ -73,11 +73,6 @@ class EmotionModule(Module):
             info = json.load(f)
         return info["dynamics"]["default"]
 
-    def __get_current_state(self) -> dict[str, float]:
-        with open("modules/emotion/state.json", "r") as f:
-            info = json.load(f)
-        return info["current"]
-
     def get_current_state(self) -> dict[str, float]:
         with open("modules/emotion/state.json", "r") as f:
             info = json.load(f)
@@ -100,21 +95,26 @@ class EmotionModule(Module):
         return math.sqrt(sum((a[i] - b[i]) ** 2 for i in range(len(a))))
 
     def get_mood_name(self) -> str:
-        state_values = tuple(self.__get_current_state().values())
+        state_values = tuple(self.get_current_state().values())
         moods_distances = {mood_name: self.__distance(state_values, list(mood.values())) for mood_name, mood in MOODS.items()}
 
         return min(moods_distances, key=lambda name: moods_distances[name])
 
-    def update_state(self, new_mood: str) -> None:
+    def update_state(
+        self,
+        new_mood: str,
+        mean_memory_state: dict[str, float],
+    ) -> None:
         default_state = self.__get_default_state()
-        current_state = self.__get_current_state()
+        current_state = self.get_current_state()
         new_mood_state = MOODS[new_mood]
         movement_speed = self.__get_value("movement_speed")
 
         for key in current_state:
             current_state[key] += (default_state[key] - current_state[key]) * movement_speed
-        for key in current_state:
             current_state[key] += (new_mood_state[key] - current_state[key]) * movement_speed
+            if mean_memory_state is not None:
+                current_state[key] += (mean_memory_state[key] - current_state[key]) * movement_speed
         self.__save_state(current_state)
 
     def process(self) -> None:

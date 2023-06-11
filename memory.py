@@ -31,11 +31,12 @@ class MemoryModule(Module):
     def process(
         self,
         text: str,
+        current_state: dict[str, float],
         num_results: int = 5,
-    ) -> list[dict[str, Any]]:
+    ) -> tuple[list[dict[str, Any]], dict[str, float] | None]:
         text_embedding = self.__get_embedding(text)
-        if num_results != 0:
-            memories = []
+        memories = []
+        if num_results:
             for name in os.listdir("modules/memory"):
                 with open(f"modules/memory/{name}", "r") as f:
                     memory = json.load(f)
@@ -49,11 +50,20 @@ class MemoryModule(Module):
             )
             memories = memories[:num_results]
 
+        if num_results and memories:
+            states = [memory["state"] for memory in memories]
+            print(states)
+            mean_state = {key: sum(state[key] for state in states) / len(states) for key in states[0]}
+        else:
+            mean_state = None
+
         next_index = len(os.listdir("modules/memory"))
         with open(f"modules/memory/{next_index}.json", "w+") as f:
             json.dump({
                 "content": text,
                 "timestamp": time.time(),
                 "embedding": text_embedding,
+                "state": current_state,
             }, f, indent=4)
-        return memories if num_results else []
+
+        return memories, mean_state

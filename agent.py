@@ -15,10 +15,11 @@ class Agent:
 
     def __respond(self, text: str) -> str:
         mood_name = self.__emotion.get_mood_name()
-        print(self.__emotion.get_current_state())
+        state = self.__emotion.get_current_state()
+        print(state)
         print(mood_name)
 
-        related_memories = self.__memory.process(text)
+        related_memories, mean_memory_state = self.__memory.process(text, state)
         self.__message.save_message(text, self.__user_name)
         recent_messages = self.__message.get_recent_messages(5)
 
@@ -39,8 +40,8 @@ class Agent:
 
         self.__message.save_message(response["response"], self.__bot_name)
         for note in response["notes"]:
-            self.__memory.process(note, 0)
-        self.__emotion.update_state(response["new mood"])
+            self.__memory.process(note, state, 0)
+        self.__emotion.update_state(response["new mood"], mean_memory_state)
 
         return response["response"]
 
