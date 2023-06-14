@@ -6,8 +6,8 @@ import os
 
 class Module(ABC):
     def __init__(self) -> None:
-        if not os.path.exists("modules"):
-            os.mkdir("modules")
+        if not os.path.exists("agent/modules"):
+            os.mkdir("agent/modules")
 
     @abstractmethod
     def process(self) -> Any:

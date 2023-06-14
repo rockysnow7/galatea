@@ -1,1 +1,1 @@
-rm -r modules/emotion modules/memory modules/messages
+rm -r agent/modules/emotion agent/modules/memory agent/modules/messages

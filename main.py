@@ -1,5 +1,5 @@
-from agent import Agent
+from agent.agent import Agent
 
 
-agent = Agent("Ada", "Finn")
+agent = Agent("Robot", "Finn")
 agent.converse()

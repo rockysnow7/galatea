@@ -1,5 +1,5 @@
 from typing import Any
-from module import Module
+from agent.module import Module
 
 import os
 import json
@@ -10,7 +10,7 @@ class PromptModule(Module):
         super().__init__()
 
     def __get_intro(self, bot_name: str, user_name: str) -> str:
-        with open("modules/prompt/intro.txt", "r") as f:
+        with open("agent/modules/prompt/intro.txt", "r") as f:
             text = f.read()
         text = text.format(
             bot_name=bot_name,
@@ -25,7 +25,7 @@ class PromptModule(Module):
         user_name: str,
         mood_name: str,
     ) -> str:
-        with open(f"modules/prompt/example-chats/{mood_name}.txt", "r") as f:
+        with open(f"agent/modules/prompt/example-chats/{mood_name}.txt", "r") as f:
             text = f.read()
         text = text.format(
             bot_name=bot_name,
@@ -45,7 +45,7 @@ class PromptModule(Module):
         #with open(f"modules/prompt/example-json/{mood_name}.txt", "r") as f:
         #    text = f.read()
 
-        with open(f"modules/prompt/example-json/neutral.txt", "r") as f:
+        with open(f"agent/modules/prompt/example-json/neutral.txt", "r") as f:
             text = f.read()
         text = text.format(
             bot_name=bot_name,
@@ -55,7 +55,7 @@ class PromptModule(Module):
         return text
 
     def __get_mood(self, bot_name: str, mood_name: str) -> str:
-        with open(f"modules/prompt/mood/{mood_name}.txt", "r") as f:
+        with open(f"agent/modules/prompt/mood/{mood_name}.txt", "r") as f:
             text = f.read()
         text = text.format(bot_name=bot_name)
 
@@ -71,7 +71,7 @@ class PromptModule(Module):
             memories_formatted += f"- {memory['content']}\n"
         memories_formatted = memories_formatted.strip()
 
-        with open(f"modules/prompt/memories.txt", "r") as f:
+        with open(f"agent/modules/prompt/memories.txt", "r") as f:
             text = f.read()
         text = text.format(
             bot_name=bot_name,
@@ -91,7 +91,7 @@ class PromptModule(Module):
             messages_formatted += f"{message['sender']}: {message['content']}\n"
         messages_formatted = messages_formatted.strip()
 
-        with open(f"modules/prompt/messages.txt", "r") as f:
+        with open(f"agent/modules/prompt/messages.txt", "r") as f:
             text = f.read()
         text = text.format(
             bot_name=bot_name,
@@ -102,7 +102,7 @@ class PromptModule(Module):
         return text
 
     def __get_respond(self, bot_name: str) -> str:
-        with open(f"modules/prompt/respond.txt", "r") as f:
+        with open(f"agent/modules/prompt/respond.txt", "r") as f:
             text = f.read()
         text = text.format(bot_name=bot_name)
 
@@ -122,10 +122,9 @@ class PromptModule(Module):
         mood = self.__get_mood(bot_name, mood_name)
         memories = self.__get_memories(bot_name, memories_list)
         messages = self.__get_messages(bot_name, user_name, messages_list)
-        #print(messages)
         respond = self.__get_respond(bot_name)
 
-        with open("modules/prompt/prompt.txt", "r") as f:
+        with open("agent/modules/prompt/prompt.txt", "r") as f:
             text = f.read()
         text = text.format(
             intro=intro,

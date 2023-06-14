@@ -1,4 +1,4 @@
-from module import Module
+from agent.module import Module
 
 import os
 import json
@@ -49,7 +49,7 @@ class EmotionModule(Module):
     def __init__(self) -> None:
         super().__init__()
 
-        if not os.path.exists("modules/emotion"):
+        if not os.path.exists("agent/modules/emotion"):
             info = {
                 "current": {
                     "happiness": 0.0,
@@ -64,31 +64,31 @@ class EmotionModule(Module):
                 },
             }
 
-            os.mkdir("modules/emotion")
-            with open("modules/emotion/state.json", "w+") as f:
+            os.mkdir("agent/modules/emotion")
+            with open("agent/modules/emotion/state.json", "w+") as f:
                 json.dump(info, f, indent=4)
 
     def __get_default_state(self) -> dict[str, float]:
-        with open("modules/emotion/state.json", "r") as f:
+        with open("agent/modules/emotion/state.json", "r") as f:
             info = json.load(f)
         return info["dynamics"]["default"]
 
     def get_current_state(self) -> dict[str, float]:
-        with open("modules/emotion/state.json", "r") as f:
+        with open("agent/modules/emotion/state.json", "r") as f:
             info = json.load(f)
         return info["current"]
 
     def __get_value(self, name: str) -> float:
-        with open("modules/emotion/state.json", "r") as f:
+        with open("agent/modules/emotion/state.json", "r") as f:
             info = json.load(f)
         return info["dynamics"][name]
 
     def __save_state(self, state: dict[str, float]) -> None:
-        with open("modules/emotion/state.json", "r") as f:
+        with open("agent/modules/emotion/state.json", "r") as f:
             info = json.load(f)
         info["current"] = state
 
-        with open("modules/emotion/state.json", "w") as f:
+        with open("agent/modules/emotion/state.json", "w") as f:
             json.dump(info, f, indent=4)
 
     def __distance(self, a: tuple[float, ...], b: tuple[float, ...]) -> float:

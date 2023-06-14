@@ -1,7 +1,7 @@
-from emotion import EmotionModule
-from memory import MemoryModule
-from prompt import PromptModule
-from message import MessageModule
+from agent.emotion import EmotionModule
+from agent.memory import MemoryModule
+from agent.prompt import PromptModule
+from agent.message import MessageModule
 
 
 class Agent:

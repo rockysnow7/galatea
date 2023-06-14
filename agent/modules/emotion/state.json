@@ -1,0 +1,13 @@
+{
+    "current": {
+        "happiness": 0.0,
+        "energy": 0.0
+    },
+    "dynamics": {
+        "default": {
+            "happiness": 0.0,
+            "energy": -5.0
+        },
+        "movement_speed": 0.2
+    }
+}
